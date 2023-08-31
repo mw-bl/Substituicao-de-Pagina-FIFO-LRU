@@ -32,6 +32,40 @@ int fifo(int pags[], int length, int num_frames) {
     return falta_de_pag;
 }
 
+int lru(int pags[], int length, int num_frames) {
+    int frames[num_frames];
+    int falta_de_pag = 0;
+    int frame_index = 0;
+
+    for (int i = 0; i < num_frames; i++) {
+        frames[i] = -1;
+    }
+
+    for (int i = 0; i < length; i++) {
+        int pag = pags[i];
+        int found = 0;
+
+        for (int j = 0; j < num_frames; j++) {
+            if (frames[j] == pag) {
+                found = 1;
+                for (int k = j; k < num_frames - 1; k++) {
+                    frames[k] = frames[k + 1];
+                }
+                frames[num_frames - 1] = pag;
+                break;
+            }
+        }
+
+        if (!found) {
+            frames[frame_index] = pag;
+            frame_index = (frame_index + 1) % num_frames;
+            falta_de_pag++;
+        }
+    }
+
+    return falta_de_pag;
+}
+
 int main() {
     int reference_string[50];
     gerarStringDeReferencia(reference_string, 50);
