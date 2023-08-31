@@ -66,6 +66,13 @@ int lru(int pags[], int length, int num_frames) {
     return falta_de_pag;
 }
 
+void gerarStringDeReferencia(int pags[], int length) {
+    srand(time(NULL));
+    for (int i = 0; i < length; i++) {
+        pags[i] = rand() % 10;
+    }
+}
+
 int main() {
     int reference_string[50];
     gerarStringDeReferencia(reference_string, 50);
